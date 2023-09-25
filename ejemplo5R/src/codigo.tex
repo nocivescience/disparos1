@@ -1,0 +1,40 @@
+import React, { useRef, useEffect, useState } from 'react';
+
+function CanvasComponent() {
+  const canvasRef = useRef(null);
+  const [xPosition, setXPosition] = useState(0); // Estado para rastrear la posición horizontal
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    // Función para dibujar la animación
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(xPosition, 50, 50, 50);
+    }
+
+    // Función para actualizar la posición horizontal
+    function updatePosition() {
+      setXPosition((prevX) => prevX + 1); // Mover hacia la derecha
+    }
+
+    // Función de animación
+    function animate() {
+      draw();
+      updatePosition();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }, [xPosition]);
+
+  return (
+    <div>
+      <canvas ref={canvasRef} width="400" height="400"></canvas>
+    </div>
+  );
+}
+
+export default CanvasComponent;
